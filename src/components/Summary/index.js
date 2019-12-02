@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Summary = props => {
   return (
@@ -66,6 +66,10 @@ const Order = ({
 }) => {
   const [newCount, setNewCount] = useState(count);
 
+  useEffect(prevState => {
+    setNewCount(count);
+  }, [count]);
+
   return (
     <tr>
       <td>{name}</td>
@@ -75,13 +79,13 @@ const Order = ({
           <input
             type="number"
             value={newCount}
-            onChange={event => setNewCount(event.target.value)}
+            onChange={event => setNewCount(+event.target.value)}
           />
         ) : (
-          newCount
+          count
         )}
       </td>
-      <td>{price * newCount}</td>
+      <td>{price * count}</td>
       <td>
         {isEditing ? (
           <button onClick={() => onUpdateOrder({ name, count: newCount })}>
